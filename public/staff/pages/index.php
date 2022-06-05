@@ -1,13 +1,6 @@
 <?php require_once('../../../private/initialize.php') ?>
 
-<?php
-  $pages = [
-    ['id' => '1', 'position' => '1', 'visible' => '1', 'menu_name' => 'Page 1'],
-    ['id' => '2', 'position' => '2', 'visible' => '1', 'menu_name' => 'Page 2'],
-    ['id' => '3', 'position' => '3', 'visible' => '1', 'menu_name' => 'Page 3'],
-    ['id' => '4', 'position' => '4', 'visible' => '1', 'menu_name' => 'Page 4']
-  ];
-?>
+<?php $page_set = find_all_pages(); ?>
 
 <?php $page_title = 'Pages' ?>
 
@@ -22,6 +15,7 @@
     <table class="list">
       <tr>
         <th>ID</th>
+        <th>Subject ID</th>
         <th>Position</th>
         <th>Visible</th>
         <th>Name</th>
@@ -29,9 +23,11 @@
         <th>&nbsp;</th>
         <th>&nbsp;</th>
       </tr>
-      <?php foreach($pages as $page) { ?>
+
+      <?php while ($page = mysqli_fetch_assoc($page_set)) { ?>
           <tr>
             <td><?php echo htmlspecialchars($page['id']); ?></td>
+            <td><?php echo htmlspecialchars($page['subject_id']); ?></td>
             <td><?php echo htmlspecialchars($page['position']); ?></td>
             <td><?php echo $page['visible'] == 1 ? 'true' : 'false'; ?></td>
             <td><?php echo htmlspecialchars($page['menu_name']); ?></td>
@@ -39,7 +35,10 @@
             <td><a class="action" href="<?php echo url_for('/staff/pages/edit.php?id=' . htmlspecialchars(urlencode($page['id']))); ?>">Edit</a></td>
             <td><a class="action" href="">Delete</a></td>
           </tr>
-        <?php } ?>
+      <?php } ?>
+
+      <?php mysqli_free_result($page_set); ?>
+
     </table>
   </div>
 </div>
