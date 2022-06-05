@@ -1,3 +1,5 @@
+<?php require_once('../../../private/initialize.php'); ?>
+
 <?php $id = htmlspecialchars($_GET['id'] ?? "1"); ?>
 
 <?php $page_title = 'Show Subject' ?>
