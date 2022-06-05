@@ -8,11 +8,13 @@
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $menu_name = $_POST['menu_name'] ?? '';
-    $position = $_POST['position'] ?? '';
-    $visible = $_POST['visible'] ?? '';
+    $subject = [
+      'menu_name' => $_POST['menu_name'] ?? '',
+      'position' => $_POST['position'] ?? '',
+      'visible' => $_POST['visible'] ?? ''
+    ];
 
-    insert_subject($menu_name, $position, $visible);
+    insert_subject($subject);
 
     $result_id = mysqli_insert_id($db);
 

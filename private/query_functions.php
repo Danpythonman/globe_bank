@@ -29,12 +29,12 @@
         return $subject;
     }
 
-    function insert_subject($menu_name, $position, $visible) {
+    function insert_subject($subject) {
         global $db;
 
-        $query = "INSERT INTO subjects 
+        $query = "INSERT INTO subjects
           (menu_name, position, visible)
-          VALUES ('$menu_name', '$position', '$visible')";
+          VALUES ('{$subject['menu_name']}', '{$subject['position']}', '{$subject['visible']}')";
 
         $result = mysqli_query($db, $query);
 
