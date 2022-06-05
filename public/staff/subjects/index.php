@@ -1,13 +1,6 @@
 <?php require_once("../../../private/initialize.php"); ?>
 
-<?php
-  $subjects = [
-    ['id' => '1', 'position' => '1', 'visible' => '1', 'menu_name' => 'About Globe Bank'],
-    ['id' => '2', 'position' => '2', 'visible' => '1', 'menu_name' => 'Consumer'],
-    ['id' => '3', 'position' => '3', 'visible' => '1', 'menu_name' => 'Small Business'],
-    ['id' => '4', 'position' => '4', 'visible' => '1', 'menu_name' => 'Commercial'],
-  ];
-?>
+<?php $subject_set = find_all_subjects(); ?>
 
 <?php $page_title = "Subjects"; ?>
 
@@ -29,7 +22,8 @@
   	    <th>&nbsp;</th>
         <th>&nbsp;</th>
   	  </tr>
-      <?php foreach($subjects as $subject) { ?>
+
+      <?php while ($subject = mysqli_fetch_assoc($subject_set)) { ?>
         <tr>
           <td><?php echo htmlspecialchars($subject['id']); ?></td>
           <td><?php echo htmlspecialchars($subject['position']); ?></td>
@@ -40,7 +34,11 @@
           <td><a class="action" href="">Delete</a></td>
     	  </tr>
       <?php } ?>
+
   	</table>
+
+    <?php mysqli_free_result($subject_set); ?>
+
   </div>
 </div>
 
