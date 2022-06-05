@@ -12,16 +12,11 @@
     $position = $_POST['position'] ?? '';
     $visible = $_POST['visible'] ?? '';
 
-    echo <<< EOT
-      Form parameters:
-      <br/>
-      Menu name: $menu_name
-      <br/>
-      Position: $position
-      <br/>
-      Visible: $visible
-      <br/>
-    EOT;
+    insert_subject($menu_name, $position, $visible);
+
+    $result_id = mysqli_insert_id($db);
+
+    redirect_to(url_for('/staff/subjects/show.php?id=' . $result_id));
   }
 
 ?>
