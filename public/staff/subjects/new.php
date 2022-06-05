@@ -17,6 +17,12 @@
     $result_id = mysqli_insert_id($db);
 
     redirect_to(url_for('/staff/subjects/show.php?id=' . $result_id));
+  } else {
+    $subject_set = find_all_subjects();
+    $subject_count = mysqli_num_rows($subject_set) + 1;
+    mysqli_free_result($subject_set);
+
+    $subject = ['position' => $subject_count];
   }
 
 ?>
@@ -40,7 +46,17 @@
         <dt>Position</dt>
         <dd>
           <select name="position">
-            <option value="1" <?php echo $position == '1' ? 'selected' : '' ?>>1</option>
+
+          <?php
+              for ($i = 1; $i <= $subject_count; $i++) {
+                echo "<option value=\"$i\"";
+                if ($subject['position'] == $i) {
+                  echo ' selected';
+                }
+                echo ">$i</option>";
+              }
+          ?>
+
           </select>
         </dd>
       </dl>
