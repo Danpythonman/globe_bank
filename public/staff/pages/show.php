@@ -1,6 +1,10 @@
 <?php require_once('../../../private/initialize.php'); ?>
 
-<?php $id = htmlspecialchars($_GET['id'] ?? '1'); ?>
+<?php
+  $id = htmlspecialchars($_GET['id'] ?? '1');
+
+  $page = find_page_by_id($id);
+?>
 
 <?php $page_title = 'Show Page' ?>
 
@@ -9,7 +13,21 @@
 <div id="content">
   <a class="back-link" href="<?php echo url_for('staff/pages/index.php'); ?>">&laquo; Back to Page List</a>
   <div class="page show">
-    Page ID: <?php echo htmlspecialchars($id); ?>
+    <h1>Page: <?php echo htmlspecialchars($page['menu_name']); ?></h1>
+    <div class="attributes">
+      <dl>
+        <dt>Menu Name</dt>
+        <dd><?php echo htmlspecialchars($page['menu_name']); ?></dd>
+      </dl>
+      <dl>
+        <dt>Position</dt>
+        <dd><?php echo htmlspecialchars($page['position']); ?></dd>
+      </dl>
+      <dl>
+        <dt>Visible</dt>
+        <dd><?php echo $page['visible'] == '1' ? 'true' : 'false'; ?></dd>
+      </dl>
+    </div>
   </div>
 </div>
 
