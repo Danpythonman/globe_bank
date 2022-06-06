@@ -14,20 +14,21 @@
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $menu_name = $_POST['menu_name'] ?? '';
-    $position = $_POST['position'] ?? '';
-    $visible = $_POST['visible'] ?? '';
+    $page = [
+      'id' => $id,
+      'subject_id' => 1,
+      'menu_name' => $_POST['menu_name'] ?? '',
+      'position' => $_POST['position'] ?? '',
+      'visible' => $_POST['visible'] ?? '',
+      'content' => $_POST['content'] ?? ''
+    ];
 
-    echo <<< EOT
-      Form parameters:
-      <br/>
-      Menu name: $menu_name
-      <br/>
-      Position: $position
-      <br/>
-      Visible: $visible
-      <br/>
-      EOT;
+    $result = update_page($page);
+
+    redirect_to(url_for('/staff/pages/show.php?id=' . $page['id']));
+
+  } else {
+    $page = find_page_by_id($id);
   }
 
 ?>
@@ -44,14 +45,14 @@
       <dl>
       <dt>Menu Name</dt>
         <dd>
-          <input type="text" name="menu_name" value="<?php echo htmlspecialchars($menu_name) ?>" />
+          <input type="text" name="menu_name" value="<?php echo htmlspecialchars($page['menu_name']) ?>" />
         </dd>
       </dl>
       <dl>
         <dt>Position</dt>
         <dd>
           <select name="position">
-            <option value="1" <?php echo $position == '1' ? 'selected' : '' ?>>1</option>
+            <option value="1" <?php echo $page['position'] == '1' ? 'selected' : '' ?>>1</option>
           </select>
         </dd>
       </dl>
@@ -59,7 +60,7 @@
         <dt>Visible</dt>
         <dd>
           <input type="hidden" name="visible" value="0" />
-          <input type="checkbox" name="visible" value="1" <?php echo $visible == '1' ? 'checked' : '' ?> />
+          <input type="checkbox" name="visible" value="1" <?php echo $page['visible'] == '1' ? 'checked' : '' ?> />
         </dd>
       </dl>
       <div id="operations">
