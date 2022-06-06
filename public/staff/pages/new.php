@@ -8,20 +8,22 @@
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $menu_name = $_POST['menu_name'] ?? '';
-    $position = $_POST['position'] ?? '';
-    $visible = $_POST['visible'] ?? '';
+    $page = [
+      'id' => $id,
+      'subject_id' => 1,
+      'menu_name' => $_POST['menu_name'] ?? '',
+      'position' => $_POST['position'] ?? '',
+      'visible' => $_POST['visible'] ?? '',
+      'content' => $_POST['content'] ?? ''
+    ];
 
-    echo <<< EOT
-      Form parameters:
-      <br/>
-      Menu name: $menu_name
-      <br/>
-      Position: $position
-      <br/>
-      Visible: $visible
-      <br/>
-    EOT;
+    insert_page($page);
+
+    $result_id = mysqli_insert_id($db);
+
+    redirect_to(url_for('/staff/pages/show.php?id=' . $result_id));
+  } else {
+    $page = [];
   }
 
 ?>
