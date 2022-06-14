@@ -83,6 +83,22 @@
         }
     }
 
+    function get_subject_name_by_id($id) {
+        global $db;
+
+        $query = "SELECT menu_name FROM subjects WHERE id='$id' LIMIT 1";
+
+        $menu_name_set = mysqli_query($db, $query);
+
+        confirm_result_set($menu_name_set);
+
+        $menu_name = mysqli_fetch_assoc($menu_name_set);
+
+        mysqli_free_result($menu_name_set);
+
+        return $menu_name['menu_name'];
+    }
+
     function find_all_pages() {
         global $db;
 

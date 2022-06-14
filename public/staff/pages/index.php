@@ -15,7 +15,7 @@
     <table class="list">
       <tr>
         <th>ID</th>
-        <th>Subject ID</th>
+        <th>Subject</th>
         <th>Position</th>
         <th>Visible</th>
         <th>Name</th>
@@ -27,7 +27,7 @@
       <?php while ($page = mysqli_fetch_assoc($page_set)) { ?>
           <tr>
             <td><?php echo htmlspecialchars($page['id']); ?></td>
-            <td><?php echo htmlspecialchars($page['subject_id']); ?></td>
+            <td><?php echo htmlspecialchars(get_subject_name_by_id($page['subject_id'])); ?></td>
             <td><?php echo htmlspecialchars($page['position']); ?></td>
             <td><?php echo $page['visible'] == 1 ? 'true' : 'false'; ?></td>
             <td><?php echo htmlspecialchars($page['menu_name']); ?></td>
