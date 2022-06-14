@@ -99,6 +99,26 @@
         return $menu_name['menu_name'];
     }
 
+    function get_subject_names_and_ids() {
+        global $db;
+
+        $query = "SELECT id, menu_name FROM subjects";
+
+        $menu_name_and_id_set = mysqli_query($db, $query);
+
+        confirm_result_set($menu_name_and_id_set);
+
+        $menu_name_and_id_list = [];
+
+        while ($menu_name_and_id = mysqli_fetch_assoc($menu_name_and_id_set)) {
+            array_push($menu_name_and_id_list, ['name' => $menu_name_and_id['menu_name'], 'id' => $menu_name_and_id['id']]);
+        }
+
+        mysqli_free_result($menu_name_and_id_set);
+
+        return $menu_name_and_id_list;
+    }
+
     function find_all_pages() {
         global $db;
 

@@ -10,7 +10,7 @@
 
     $page = [
       'id' => $id,
-      'subject_id' => 1,
+      'subject_id' => $_POST['subject_id'] ?? '',
       'menu_name' => $_POST['menu_name'] ?? '',
       'position' => $_POST['position'] ?? '',
       'visible' => $_POST['visible'] ?? '',
@@ -24,6 +24,8 @@
     redirect_to(url_for('/staff/pages/show.php?id=' . $result_id));
   } else {
     $page = [];
+
+    $subject_names_and_ids = get_subject_names_and_ids();
   }
 
 ?>
@@ -41,6 +43,18 @@
       <dt>Menu Name</dt>
         <dd>
           <input type="text" name="menu_name" value="<?php echo htmlspecialchars($menu_name) ?>" />
+        </dd>
+      </dl>
+      <dl>
+        <dt>Subject</dt>
+        <dd>
+          <select name="subject_id">
+            <?php
+              foreach ($subject_names_and_ids as $subject_name_and_id) {
+                echo "<option value=\"{$subject_name_and_id['id']}\">{$subject_name_and_id['name']}</option>";
+              }
+            ?>
+          </select>
         </dd>
       </dl>
       <dl>
