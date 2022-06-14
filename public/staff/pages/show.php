@@ -20,6 +20,10 @@
         <dd><?php echo htmlspecialchars($page['menu_name']); ?></dd>
       </dl>
       <dl>
+        <dt>Subject Name</dt>
+        <dd><?php echo htmlspecialchars(get_subject_name_by_id($page['subject_id'])); ?></dd>
+      </dl>
+      <dl>
         <dt>Position</dt>
         <dd><?php echo htmlspecialchars($page['position']); ?></dd>
       </dl>
