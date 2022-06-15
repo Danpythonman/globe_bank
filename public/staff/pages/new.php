@@ -26,6 +26,8 @@
     $page = [];
 
     $subject_names_and_ids = get_subject_names_and_ids();
+
+    $position_list = count_pages_in_subjects();
   }
 
 ?>
@@ -48,7 +50,7 @@
       <dl>
         <dt>Subject</dt>
         <dd>
-          <select name="subject_id">
+          <select name="subject_id" id="subject-select">
             <?php
               foreach ($subject_names_and_ids as $subject_name_and_id) {
                 echo "<option value=\"{$subject_name_and_id['id']}\">{$subject_name_and_id['name']}</option>";
@@ -60,8 +62,8 @@
       <dl>
         <dt>Position</dt>
         <dd>
-          <select name="position">
-            <option value="1" <?php echo $position == '1' ? 'selected' : '' ?>>1</option>
+          <select name="position" id="position-select">
+            <!-- Will be filled in with Javascript -->
           </select>
         </dd>
       </dl>
@@ -78,5 +80,41 @@
     </form>
   </div>
 </div>
+
+<script>
+  let countsOfSubjectsPages = {};
+
+  <?php foreach ($subject_names_and_ids as $subject_name_and_id) {
+    $subject_id = $subject_name_and_id['id'];
+
+    $count_for_subject = $position_list[$subject_id] ?? 0;
+
+    echo "countsOfSubjectsPages[$subject_id] = $count_for_subject;"
+  ?>
+  <?php } ?>
+
+  document.getElementById('subject-select').onchange = (event) => updatePositionDropdown(event.target);
+
+  function updatePositionDropdown(subjectDropdown) {
+    const subjectId = subjectDropdown.value;
+
+    const subjectMaxPosition = countsOfSubjectsPages[subjectId];
+
+    const positionSelect = document.getElementById('position-select');
+
+    positionSelect.innerHTML = "";
+
+    for (let i = 1; i <= subjectMaxPosition + 1; i++) {
+      let option = document.createElement('option');
+
+      option.value = i;
+      option.innerHTML = i;
+
+      positionSelect.appendChild(option);
+    }
+  }
+
+  updatePositionDropdown(document.getElementById('subject-select'));
+</script>
 
 <?php include(SHARED_PATH . '/staff_footer.php'); ?>
