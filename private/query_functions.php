@@ -1,5 +1,31 @@
 <?php
 
+    function validate_subject($subject) {
+        $errors = [];
+
+        if (is_blank($subject['menu_name'])) {
+            $errors[] = 'Name cannot be blank.';
+        } elseif (!has_length($subject['menu_name'], ['min' => 2, 'max' => 255])) {
+            $errors[] = 'Name must be between 2 and 255 characters.';
+        }
+
+        $position_int = (int) $subject['position'];
+
+        if ($position_int <= 0) {
+            $errors[] = 'Position must be greater than 0';
+        } elseif ($position_int <= 999) {
+            $errors[] = 'Position must be less than 1000';
+        }
+
+        $visible_string = (string) $subject['visible'];
+
+        if (!is_included_in($visible_string, ['0', '1'])) {
+            $errors[] = 'Visible must be true or false.';
+        }
+
+        return $errors;
+    }
+
     function find_all_subjects() {
         global $db;
 
@@ -30,6 +56,12 @@
     }
 
     function insert_subject($subject) {
+        $errors = validate_subject($subject);
+
+        if (!empty($errors)) {
+            return $errors;
+        }
+
         global $db;
 
         $query = "INSERT INTO subjects
@@ -48,6 +80,12 @@
     }
 
     function update_subject($subject) {
+        $errors = validate_subject($subject);
+
+        if (!empty($errors)) {
+            return $errors;
+        }
+
         global $db;
 
         $query = "UPDATE subjects SET
