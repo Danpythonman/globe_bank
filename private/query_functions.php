@@ -13,7 +13,7 @@
 
         if ($position_int <= 0) {
             $errors[] = 'Position must be greater than 0';
-        } elseif ($position_int <= 999) {
+        } elseif ($position_int > 999) {
             $errors[] = 'Position must be less than 1000';
         }
 
