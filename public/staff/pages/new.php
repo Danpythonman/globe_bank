@@ -5,7 +5,6 @@
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $page = [
-      'id' => $id,
       'subject_id' => $_POST['subject_id'] ?? '',
       'menu_name' => $_POST['menu_name'] ?? '',
       'position' => $_POST['position'] ?? '',
@@ -13,11 +12,15 @@
       'content' => $_POST['content'] ?? ''
     ];
 
-    insert_page($page);
+    $result = insert_page($page);
 
-    $result_id = mysqli_insert_id($db);
+    if ($result === true) {
+      $result_id = mysqli_insert_id($db);
+      redirect_to(url_for('/staff/pages/show.php?id=' . $result_id));
+    } else {
+      $errors = $result;
+    }
 
-    redirect_to(url_for('/staff/pages/show.php?id=' . $result_id));
   } else {
 
     $page = [
@@ -27,11 +30,11 @@
       'visible' => '',
       'content' => ''
     ];
-
-    $subject_names_and_ids = get_subject_names_and_ids();
-
-    $position_list = count_pages_in_subjects();
   }
+
+  $subject_names_and_ids = get_subject_names_and_ids();
+
+  $position_list = count_pages_in_subjects();
 
 ?>
 
@@ -43,6 +46,13 @@
   <a class="back-link" href="<?php echo url_for('/staff/pages/index.php'); ?>">&laquo; Back to List</a>
   <div class="page new">
     <h1>Create Page</h1>
+
+    <?php
+      if (isset($errors)) {
+        echo display_errors($errors);
+      }
+    ?>
+
     <form action="<?php echo url_for('/staff/pages/new.php'); ?>" method="post">
       <dl>
       <dt>Menu Name</dt>

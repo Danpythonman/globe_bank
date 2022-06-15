@@ -21,15 +21,18 @@
 
     $result = update_page($page);
 
-    redirect_to(url_for('/staff/pages/show.php?id=' . $page['id']));
-
+    if ($result === true) {
+      redirect_to(url_for('/staff/pages/show.php?id=' . $page['id']));
+    } else {
+      $errors = $result;
+    }
   } else {
     $page = find_page_by_id($id);
-
-    $subject_names_and_ids = get_subject_names_and_ids();
-
-    $position_list = count_pages_in_subjects();
   }
+
+  $subject_names_and_ids = get_subject_names_and_ids();
+
+  $position_list = count_pages_in_subjects();
 
 ?>
 
@@ -41,6 +44,13 @@
   <a class="back-link" href="<?php echo url_for('/staff/pages/index.php'); ?>">&laquo; Back to List</a>
   <div class="page edit">
     <h1>Edit Page</h1>
+
+    <?php
+      if (isset($errors)) {
+        echo display_errors($errors);
+      }
+    ?>
+
     <form action="<?php echo url_for('/staff/pages/edit.php?id=' . htmlspecialchars(urlencode($id))); ?>" method="post">
       <dl>
       <dt>Menu Name</dt>
