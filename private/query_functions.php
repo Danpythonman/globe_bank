@@ -204,4 +204,24 @@
         }
     }
 
+    function count_pages_in_subjects() {
+        global $db;
+
+        $query = "SELECT subject_id, COUNT(*) AS count FROM pages GROUP BY subject_id";
+
+        $count_set = mysqli_query($db, $query);
+
+        confirm_result_set($count_set);
+
+        $count_list = [];
+
+        while ($count = mysqli_fetch_array($count_set)) {
+            $count_list[$count['subject_id']] = $count['count'];
+        }
+
+        mysqli_free_result($count_set);
+
+        return $count_list;
+    }
+
 ?>
