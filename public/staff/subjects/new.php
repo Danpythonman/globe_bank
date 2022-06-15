@@ -14,18 +14,21 @@
       'visible' => $_POST['visible'] ?? ''
     ];
 
-    insert_subject($subject);
+    $result = insert_subject($subject);
 
-    $result_id = mysqli_insert_id($db);
-
-    redirect_to(url_for('/staff/subjects/show.php?id=' . $result_id));
-  } else {
-    $subject_set = find_all_subjects();
-    $subject_count = mysqli_num_rows($subject_set) + 1;
-    mysqli_free_result($subject_set);
-
-    $subject = ['position' => $subject_count];
+    if ($result === true) {
+      $result_id = mysqli_insert_id($db);
+      redirect_to(url_for('/staff/subjects/show.php?id=' . $result_id));
+    } else {
+      $errors = $result;
+    }
   }
+
+  $subject_set = find_all_subjects();
+  $subject_count = mysqli_num_rows($subject_set) + 1;
+  mysqli_free_result($subject_set);
+
+  $subject = ['position' => $subject_count];
 
 ?>
 
@@ -37,6 +40,13 @@
   <a class="back-link" href="<?php echo url_for('/staff/subjects/index.php'); ?>">&laquo; Back to List</a>
   <div class="subject new">
     <h1>Create Subject</h1>
+
+    <?php
+      if (isset($errors)) {
+        echo display_errors($errors);
+      }
+    ?>
+
     <form action="<?php echo url_for('/staff/subjects/new.php'); ?>" method="post">
       <dl>
       <dt>Menu Name</dt>
