@@ -23,4 +23,31 @@
         exit;
     }
 
+    function display_errors($errors) {
+        $output = '';
+
+        if (isset($errors)) {
+            $output .= <<< HTML
+                <div class="errors">
+                    <p>Please fix the following errors:
+                    <ul>
+            HTML;
+
+            foreach ($errors as $error) {
+                $error_safe_string = htmlspecialchars($error);
+
+                $output .= <<< HTML
+                    <li>$error_safe_string</li>
+                HTML;
+            }
+
+            $output .= <<< HTML
+                    </ul>
+                </div>
+            HTML;
+        }
+
+        return $output;
+    }
+
 ?>
