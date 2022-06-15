@@ -8,10 +8,6 @@
 
   $id = $_GET['id'];
 
-  $menu_name = '';
-  $position = '';
-  $visible = '';
-
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $page = [
@@ -83,6 +79,12 @@
         <dd>
           <input type="hidden" name="visible" value="0" />
           <input type="checkbox" name="visible" value="1" <?php echo $page['visible'] == '1' ? 'checked' : '' ?> />
+        </dd>
+      </dl>
+      <dl>
+        <dt>Content</dt>
+        <dd>
+          <textarea name="content" cols="60" rows="10"><?php echo htmlspecialchars($page['content']) ?></textarea>
         </dd>
       </dl>
       <div id="operations">

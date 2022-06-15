@@ -2,10 +2,6 @@
 
   require_once('../../../private/initialize.php');
 
-  $menu_name = '';
-  $position = '';
-  $visible = '';
-
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $page = [
@@ -23,7 +19,14 @@
 
     redirect_to(url_for('/staff/pages/show.php?id=' . $result_id));
   } else {
-    $page = [];
+
+    $page = [
+      'subject_id' => '',
+      'menu_name' => '',
+      'position' => '',
+      'visible' => '',
+      'content' => ''
+    ];
 
     $subject_names_and_ids = get_subject_names_and_ids();
 
@@ -44,7 +47,7 @@
       <dl>
       <dt>Menu Name</dt>
         <dd>
-          <input type="text" name="menu_name" value="<?php echo htmlspecialchars($menu_name) ?>" />
+          <input type="text" name="menu_name" value="<?php echo htmlspecialchars($page['menu_name']) ?>" />
         </dd>
       </dl>
       <dl>
@@ -71,7 +74,13 @@
         <dt>Visible</dt>
         <dd>
           <input type="hidden" name="visible" value="0" />
-          <input type="checkbox" name="visible" value="1" <?php echo $visible == '1' ? 'checked' : '' ?> />
+          <input type="checkbox" name="visible" value="1" <?php echo $page['visible'] == '1' ? 'checked' : '' ?> />
+        </dd>
+      </dl>
+      <dl>
+        <dt>Content</dt>
+        <dd>
+          <textarea name="content" cols="60" rows="10"><?php echo htmlspecialchars($page['content']) ?></textarea>
         </dd>
       </dl>
       <div id="operations">
