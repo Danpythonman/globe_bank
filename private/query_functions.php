@@ -7,6 +7,8 @@
             $errors[] = 'Name cannot be blank.';
         } elseif (!has_length($subject['menu_name'], ['min' => 2, 'max' => 255])) {
             $errors[] = 'Name must be between 2 and 255 characters.';
+        } elseif (!has_unique_subject_menu_name($subject['menu_name'], isset($subject['id']) ? $subject['id'] : null)) {
+            $errors[] = 'Name already taken.';
         }
 
         $position_int = (int) $subject['position'];

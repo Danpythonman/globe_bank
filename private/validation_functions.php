@@ -71,7 +71,7 @@
     function has_unique_page_menu_name($menu_name, $current_id=null) {
         global $db;
 
-        $query = "SELECT * FROM PAGES
+        $query = "SELECT * FROM pages
             WHERE menu_name='$menu_name'";
 
         if ($current_id !== null) {
@@ -85,6 +85,25 @@
         mysqli_free_result($page_set);
 
         return $page_count === 0;
+    }
+
+    function has_unique_subject_menu_name($menu_name, $current_id=null) {
+        global $db;
+
+        $query = "SELECT * FROM subjects
+            WHERE menu_name='$menu_name'";
+
+        if ($current_id !== null) {
+            $query .= " AND id!='$current_id'";
+        }
+
+        $subject_set = mysqli_query($db, $query);
+
+        $subject_count = mysqli_num_rows($subject_set);
+
+        mysqli_free_result($subject_set);
+
+        return $subject_count === 0;
     }
 
 ?>
