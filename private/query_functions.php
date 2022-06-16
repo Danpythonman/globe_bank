@@ -160,14 +160,16 @@
     function validate_page($page) {
         $errors = [];
 
-        if (is_blank($page['subject_id'])) {
-            $errors[] = 'Subject cannot be blank.';
-        }
-
         if (is_blank($page['menu_name'])) {
             $errors[] = 'Name cannot be blank.';
         } elseif (!has_length($page['menu_name'], ['min' => 2, 'max' => 255])) {
             $errors[] = 'Name must be between 2 and 255 characters.';
+        } elseif (!has_unique_page_menu_name($page['menu_name'], isset($page['id']) ? $page['id'] : null)) {
+            $errors[] = 'Name already taken.';
+        }
+
+        if (is_blank($page['subject_id'])) {
+            $errors[] = 'Subject cannot be blank.';
         }
 
         $position_int = (int) $page['position'];

@@ -68,4 +68,23 @@
         return preg_match($email_regex, $value) === 1;
     }
 
+    function has_unique_page_menu_name($menu_name, $current_id=null) {
+        global $db;
+
+        $query = "SELECT * FROM PAGES
+            WHERE menu_name='$menu_name'";
+
+        if ($current_id !== null) {
+            $query .= " AND id!='$current_id'";
+        }
+
+        $page_set = mysqli_query($db, $query);
+
+        $page_count = mysqli_num_rows($page_set);
+
+        mysqli_free_result($page_set);
+
+        return $page_count === 0;
+    }
+
 ?>
